@@ -1,0 +1,1 @@
+main.o: main.cpp heapsort.h helper.h vehicle.h quicksort.h

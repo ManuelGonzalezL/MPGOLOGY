@@ -1,13 +1,15 @@
 #pragma once
-#include <vector>
 #include <fstream>
 #include <iostream>
+#include <map>
+#include <set>
 #include <sstream>
+#include <unordered_map>
+#include <vector>
 using namespace std;
 #include "vehicle.h"
-using namespace std;
 
-//get data from the csv
+// get data from the csv
 void readData(string filePath, vector<Vehicle> &Vehicles) {
   ifstream inFile(filePath);
   if (inFile.is_open()) {
@@ -64,46 +66,88 @@ void readData(string filePath, vector<Vehicle> &Vehicles) {
     }
   }
 }
-//print top 10
-void printTop10(vector<Vehicle> &v){
-  int count =0;
+//builds map for main
+void buildMap(unordered_map<int, vector<Vehicle>> &map, set<int> &set,
+              vector<Vehicle> &v) {
+  for (auto &vehicle : v) {
+    map[vehicle.getYear()].push_back(vehicle);
+    set.insert(vehicle.getYear());
+  }
+}
+// print top 10 exluding Evs and combining years
+void printTop10(vector<Vehicle> &v) {
+  int count = 0;
   int i = 0;
-  while (count < 10)
-  {
-    if(v[i].isGas()){
-      cout << count+1 << ". "<< v[i].getMake() << " " << v[i].getModel() << " " << v[i].getYear() << " " << v[i].getCombmpg() << " " << endl;
-      count++;
+  map<pair<string, int>, set<int>> model;
+  vector<Vehicle> c;
+  while (c.size() < 15) {
+    if (v[i].isGas() &&
+        model.count({v[i].getModel(), v[i].getCombmpg()}) == 0) {
+      c.push_back(v[i]);
+    }
+    model[{v[i].getModel(), v[i].getCombmpg()}].insert(v[i].getYear());
+    i++;
+  }
+  for (auto d : c) {
+    if (count > 9) {
+      break;
+    }
+    cout << count + 1 << ". " << d.getMake() << " " << d.getModel() << " ";
+    if (model[{d.getModel(), d.getCombmpg()}].size() > 1)
+      for (auto j : model[{d.getModel(), d.getCombmpg()}]) {
+        cout << j << ", ";
       }
+    else {
+      cout << d.getYear() << " ";
+    }
+    cout << "MPG: " << d.getCombmpg() << endl;
+    count++;
+  }
+}
+  //prints top car
+void printTop(vector<Vehicle> &v) {
+  int i = 0;
+  int count = 0;
+  while (count < 1) {
+    if (v[i].isGas()) {
+      cout << v[i].getYear() << ": " << v[i].getMake() << " " << v[i].getModel()
+           << " "
+           << "MPG: " << v[i].getCombmpg() << endl;
+      count++;
+    }
     i++;
   }
 }
-//returns a new array with the given year
-void getYearHelper(vector<Vehicle> &v,vector<Vehicle> &y, int mid, int input){
-  if(v[mid].getYear() == input){
-    for (unsigned int i =mid; i<v.size(); i++){
-      if (v[i].getYear() < input){
+// returns a new array with the given year doing binary search
+void getYearHelper(vector<Vehicle> &v, vector<Vehicle> &y, int mid, int input,
+                   int temp) {
+  if (v[mid].getYear() == input) {
+    for (unsigned int i = mid; i < v.size(); i++) {
+      if (v[i].getYear() < input) {
         break;
       }
       y.push_back(v[i]);
     }
-    for (unsigned int j =mid-1; j >= 0; j--){
-      if (v[j].getYear() > input){
+    for (unsigned int j = mid - 1; j >= 0; j--) {
+      if (v[j].getYear() > input) {
         break;
       }
       y.push_back(v[j]);
     }
-  }
-  else if (v[mid].getYear() < input){
-    getYearHelper(v, y, mid/2, input);
-  }
-  else{
-    getYearHelper(v, y, mid + (mid/2), input);
+  } else if (v[mid].getYear() < input) {
+    mid = temp;
+    temp = temp / 2;
+    getYearHelper(v, y, mid, input, temp);
+  } else {
+    mid = mid + temp;
+    temp = temp / 2;
+    getYearHelper(v, y, mid, input, temp);
   }
 }
-vector<Vehicle> getYear(vector<Vehicle> &v, int input){
-  vector<Vehicle> y; //new array with just the years
-  int mid = v.size()/2;
-  getYearHelper(v, y, mid, input);
-  return y;  
+vector<Vehicle> getYear(vector<Vehicle> &v, int input) {
+  vector<Vehicle> y; // new array with just the years
+  int mid = v.size() / 2;
+  int temp = mid / 2;
+  getYearHelper(v, y, mid, input, temp);
+  return y;
 }
-
