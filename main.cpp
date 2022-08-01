@@ -14,7 +14,7 @@ int main() {
   vector<Vehicle> v; //original vector
   vector<Vehicle> h; //heap sort vector
   vector<Vehicle> q; //quick sort vector
-  vector<Vehicle> t; //inbluilt sort vector
+  vector<Vehicle> t; //inbuilt sort vector
   readData("mpg.csv", v);
 
   set<int> set;
@@ -44,7 +44,7 @@ int main() {
     //1. Best overall mpg
     if (input == 1) {
 /*-----------------------------------------*/      
-      // start of inbluit sort
+      // start of inbuilt sort
       auto startInbuilt = high_resolution_clock::now();
       //call inbuilt sort
       int n = t.size();
@@ -56,7 +56,7 @@ int main() {
       auto endInbuilt = high_resolution_clock::now();
       auto timeTakenInBuilt = duration_cast<milliseconds>(endInbuilt-startInbuilt);
       cout << "Inbuilt Sort Time: " << fixed << setprecision(5) << timeTakenInBuilt.count() << " milliseconds" << endl << endl;
-      //end of inbluilt sort
+      //end of inbuilt sort
 /*-----------------------------------------*/
        // start of quick sort
       auto startQuick = high_resolution_clock::now();
@@ -137,7 +137,7 @@ int main() {
       //3. Best mpg for each year  
     else if(input == 3) {
 /*-----------------------------------------*/
-      // start of inbluit sort
+      // start of inbuilt sort
       auto startInbuilt = high_resolution_clock::now(); 
       //call inbuilt sort
       int n = t.size();
@@ -152,7 +152,7 @@ int main() {
       auto endInbuilt = high_resolution_clock::now();
       auto timeTakenInBuilt = duration_cast<milliseconds>(endInbuilt-startInbuilt);
       cout << "Inbuilt Sort Time: " << fixed << setprecision(5) << timeTakenInBuilt.count() << " milliseconds" << endl << endl;
-      // end of inbluit sort
+      // end of inbuilt sort
 /*-----------------------------------------*/
       //star of quickSort
       auto startQuick = high_resolution_clock::now();

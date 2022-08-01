@@ -74,7 +74,7 @@ void heapSortYear(vector<Vehicle> &arr, int n)
     // Build the heap
     buildHeapYear(arr, n);
 
-    // Heap gets smaller until whole array ends up sorted
+    // Heap gets smaller until whole vector ends up sorted
     for(int i = n - 1; i >= 0; i--)
     {
         // Swap root of heap with last element of heap
@@ -89,7 +89,7 @@ void heapSortCombmpg(vector<Vehicle> &arr, int n)
     // Build the heap
     buildHeapCombmpg(arr, n);
 
-    // Heap gets smaller until whole array ends up sorted
+    // Heap gets smaller until whole vector ends up sorted
     for(int i = n - 1; i >= 0; i--)
     {
         // Swap root of heap with last element of heap
