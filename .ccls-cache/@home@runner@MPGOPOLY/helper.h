@@ -119,8 +119,7 @@ void printTop(vector<Vehicle> &v) {
   }
 }
 // returns a new array with the given year doing binary search
-void getYearHelper(vector<Vehicle> &v, vector<Vehicle> &y, int mid, int input,
-                   int temp) {
+void getYearHelper(vector<Vehicle> &v, vector<Vehicle> &y, int mid, int input, int temp) {
   if (v[mid].getYear() == input) {
     for (unsigned int i = mid; i < v.size(); i++) {
       if (v[i].getYear() < input) {
